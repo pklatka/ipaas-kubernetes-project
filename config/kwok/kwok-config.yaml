@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kwok-config
+data:
+  nodes: "1000"  # Number of simulated nodes
+  pods-per-node: "10"  # Number of pods per node
+  update-frequency: "1s"  # Status update frequency
+  node-template: |
+    apiVersion: v1
+    kind: Node
+    metadata:
+      name: kwok-node-${NODE_ID}
+    spec:
+      capacity:
+        cpu: "4"
+        memory: "8Gi"
+        pods: "110"
+      status:
+        capacity:
+          cpu: "4"
+          memory: "8Gi"
+          pods: "110"
+        allocatable:
+          cpu: "4"
+          memory: "8Gi"
+          pods: "110"
+        conditions:
+          - type: Ready
+            status: "True"
+            lastHeartbeatTime: "2023-01-01T00:00:00Z"
+            lastTransitionTime: "2023-01-01T00:00:00Z"
+            reason: "KubeletReady"
+            message: "kubelet is posting ready status"
+  pod-template: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: kwok-pod-${POD_ID}
+      namespace: default
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+      nodeName: kwok-node-${NODE_ID} 
