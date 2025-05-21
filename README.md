@@ -3,6 +3,9 @@
 ## Project Overview
 This project explores the challenges and solutions for managing and observing large-scale Kubernetes clusters using KWOK (Kubernetes WithOut Kubelet) as a simulation tool.
 
+![KWOK](./docs/images/kwok.png)
+*Figure 1: KWOK*
+
 ## Authors
 - Patryk Klatka
 - Bartłomiej Tempka
