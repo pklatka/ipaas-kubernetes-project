@@ -13,12 +13,9 @@ The central concept is to leverage KWOK to instantiate an environment representi
 Within this KWOK-simulated environment, we will deploy and configure:
 
 1. A comprehensive observability stack featuring:
-   - OpenTelemetry for data collection (metrics, logs, traces)
-   - Suitable storage systems:
-     - Prometheus for metrics
-     - Loki or Elasticsearch/OpenSearch for logs
-     - Jaeger for traces
-   - Grafana for visualization
+ - Prometheus for metrics
+ - Grafana for visualization
+ - Jaeger for traces
 
 2. The simulated nodes and pods (or simple agents/applications) will be configured to produce telemetry data at a rate and volume commensurate with the large cluster size.
 
@@ -26,31 +23,16 @@ Within this KWOK-simulated environment, we will deploy and configure:
 
 The core objective of this case study is to systematically push the installed observability stack to its limits within this controlled, scaled environment. We will measure and analyze:
 
-1. **Ingestion Performance**
+1. **Observability Performance**
    - The ingestion rate of the observability backend components
    - Resource consumption when processing high volumes of data
    - Performance with thousands of data sources
 
-2. **Query Performance**
-   - Latency and reliability of querying in Grafana
-   - Dashboard loading times with large time ranges
-   - Performance with high-cardinality data
-
-3. **Collection Efficiency**
-   - Effectiveness of OpenTelemetry configuration
-   - Data collection without system overload
-   - Critical information preservation
-
-4. **System Analysis**
-   - Identification of potential bottlenecks
-   - Configuration challenges at scale
-   - Optimization opportunities
+2. **Architecture Performance**
+   - Latency and reliability of kubernetes components like etcd
+   - Performance with extremaly high node and pod count
+   - Resouce usage under extreme conditions
 
 ## Expected Outcomes
 
-By executing this focused case study, the project aims to:
-
-1. Provide concrete evidence of large-scale observability challenges
-2. Demonstrate KWOK's value as a simulation tool
-3. Enable testing and validation of observability solutions
-4. Optimize performance and configuration before production deployment 
+By executing this focused case study, the project aims to provide concrete evidence and insights into the practical challenges of large-scale observability and demonstrate how a KWOK-based simulation environment is an invaluable tool for testing, validating, and optimizing the performance and configuration of observability solutions before deploying them in expensive, large-scale production environments.

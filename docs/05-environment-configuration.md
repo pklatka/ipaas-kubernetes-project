@@ -1,175 +1,45 @@
-# Environment Configuration
+## Installing Docker
 
-## System Requirements
+All the instructions were created from https://docs.docker.com/engine/install/
 
-### Hardware Requirements
-- CPU: Minimum 4 cores (8+ cores recommended)
-- RAM: Minimum 8GB (16GB+ recommended)
-- Storage: Minimum 50GB free space
-- Network: Stable internet connection
+ - Linux installation
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-### Software Requirements
-- Operating System: Linux (Ubuntu 20.04+ recommended)
-- Docker: Latest stable version
-- Kubernetes: v1.24 or later
-- kubectl: Latest version
-- Helm: v3.0 or later
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
 
-## KWOK Configuration
-
-### Basic Setup
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kwok-config
-data:
-  nodes: "1000"  # Number of simulated nodes
-  pods-per-node: "10"  # Number of pods per node
-  update-frequency: "1s"  # Status update frequency
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-### Node Configuration
-```yaml
-apiVersion: v1
-kind: Node
-metadata:
-  name: kwok-node-1
-spec:
-  capacity:
-    cpu: "4"
-    memory: "8Gi"
-    pods: "110"
+## Installing kwok
+
+All the instructions were created from https://kwok.sigs.k8s.io/docs/user/installation/
+
+- Homebrew  
+```brew install kwok```
+
+- Binary releases
+```bash
+# KWOK repository
+KWOK_REPO=kubernetes-sigs/kwok
+# Get latest
+KWOK_LATEST_RELEASE=$(curl "https://api.github.com/repos/${KWOK_REPO}/releases/latest" | jq -r '.tag_name')
+
+wget -O kwokctl -c "https://github.com/${KWOK_REPO}/releases/download/${KWOK_LATEST_RELEASE}/kwokctl-$(go env GOOS)-$(go env GOARCH)"
+chmod +x kwokctl
+sudo mv kwokctl /usr/local/bin/kwokctl
+
+wget -O kwok -c "https://github.com/${KWOK_REPO}/releases/download/${KWOK_LATEST_RELEASE}/kwok-$(go env GOOS)-$(go env GOARCH)"
+chmod +x kwok
+sudo mv kwok /usr/local/bin/kwok
 ```
-
-## Observability Stack Configuration
-
-### OpenTelemetry Collector
-```yaml
-apiVersion: opentelemetry.io/v1alpha1
-kind: OpenTelemetryCollector
-metadata:
-  name: otel-collector
-spec:
-  mode: deployment
-  config: |
-    receivers:
-      otlp:
-        protocols:
-          grpc:
-          http:
-    processors:
-      batch:
-    exporters:
-      prometheus:
-        endpoint: "prometheus:9090"
-      loki:
-        endpoint: "loki:3100"
-      jaeger:
-        endpoint: "jaeger:14250"
-```
-
-### Prometheus Configuration
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: prometheus
-spec:
-  endpoints:
-    - port: metrics
-      interval: 15s
-  selector:
-    matchLabels:
-      app: prometheus
-```
-
-### Grafana Configuration
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-datasources
-data:
-  prometheus.yaml: |
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        url: http://prometheus:9090
-        access: proxy
-```
-
-## Network Configuration
-
-### Ingress Setup
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: observability-ingress
-spec:
-  rules:
-    - host: grafana.example.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: grafana
-                port:
-                  number: 80
-```
-
-## Security Configuration
-
-### RBAC Setup
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: observability-role
-rules:
-  - apiGroups: [""]
-    resources: ["pods", "services", "nodes"]
-    verbs: ["get", "list", "watch"]
-```
-
-## Monitoring Configuration
-
-### Alert Rules
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: observability-alerts
-spec:
-  groups:
-    - name: observability
-      rules:
-        - alert: HighMemoryUsage
-          expr: node_memory_usage_percent > 85
-          for: 5m
-          labels:
-            severity: warning
-```
-
-## Backup Configuration
-
-### Data Retention
-```yaml
-apiVersion: monitoring.coreos.com/v1
-kind: Prometheus
-metadata:
-  name: prometheus
-spec:
-  retention: 15d
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 50Gi
-``` 

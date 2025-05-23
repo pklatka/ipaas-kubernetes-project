@@ -1,15 +1,9 @@
-## Installing kwok
-
-- Homebrew  
-```brew install kwok```
-
 ## Starting kwok cluster
 
 Create a cluster  
-```kwokctl create cluster --name=kwok --prometheus-port 9090```
+```kwokctl create cluster --name=kwok --prometheus-port 9090 --jaeger-port 16686```
 And then we switch the context  
 ```kubectl config use-context kwok-kwok```
-
 
 ## Grafana
 
