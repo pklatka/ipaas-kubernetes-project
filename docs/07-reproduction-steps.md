@@ -17,7 +17,7 @@ This document outlines the steps to reproduce the KWOK testing environment where
 ```kwokctl scale node --replicas 12100```
 
 5. Run the deployment
-```kubectl apply -f online-boutique-deployment.yaml```
+```kubectl apply -f ./examples/online-boutique/online-boutique-deployment.yaml```
 
 6. Stopping the cluster
 ```kwokctl delete cluster --name=kwok```
