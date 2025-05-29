@@ -1,7 +1,7 @@
 ## Starting kwok cluster
 
 Create a cluster  
-```kwokctl create cluster --name=kwok --prometheus-port 9090 --jaeger-port 16686```
+```kwokctl create cluster --name=kwok --prometheus-port 9090 --jaeger-port 16686 --enable metrics-server -c metrics-usage.yaml```
 And then we switch the context  
 ```kubectl config use-context kwok-kwok```
 
@@ -31,3 +31,7 @@ Run grafana container to monitor the cluster
 
 3. Stopping the deployment
 ```kubectl delete deployment kwok-benchmark-app```
+
+
+### Stopping the cluster
+```kwokctl delete cluster --name=kwok```
