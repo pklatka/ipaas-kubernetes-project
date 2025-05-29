@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kwok-benchmark-app
+  labels:
+    app: kwok-benchmark
+spec:
+  replicas: 5000 # Start with a moderate number and increase to benchmark
+  selector:
+    matchLabels:
+      app: kwok-benchmark-pod
+  template:
+    metadata:
+      labels:
+        app: kwok-benchmark-pod
+    spec:
+      # affinity: # Optional: Use affinity rules if you're testing scheduling with kwok
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #       - matchExpressions:
+      #         - key: type
+      #           operator: In
+      #           values:
+      #           - kwok-simulated-node
+      containers:
+      - name: benchmark-container
+        image: nginx # A lightweight, common image. The actual workload isn't run.
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "250m" # Simulate 0.25 CPU core request
+            memory: "256Mi" # Simulate 256MB RAM request
+          limits: # Limits are less critical for kwok but good practice
+            cpu: "500m"
+            memory: "512Mi"
+      # tolerations: # Optional: If your kwok nodes have specific taints
+      # - key: "kwok.x-k8s.io/node"
+      #   operator: "Exists"
+      #   effect: "NoSchedule"

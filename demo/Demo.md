@@ -20,3 +20,14 @@ Run grafana container to monitor the cluster
 ### Using custom Dockerfile
 ```docker build -t my-grafana:9.4.7 .```
 ```docker run -d --name=grafana -p 3000:3000 my-grafana:9.4.7```
+
+### Running example deployment
+
+1. Set up number of replicas
+```kwokctl scale node --replicas 5000```
+
+2. Run the deployment
+```kubectl apply -f deployment.yaml```
+
+3. Stopping the deployment
+```kubectl delete deployment kwok-benchmark-app```
