@@ -8,3 +8,12 @@ datasources:
     isDefault: true
     version: 1
     editable: true
+  - name: Jaeger
+    type: jaeger
+    access: proxy
+    url: http://host.docker.internal:16686
+    isDefault: false
+    version: 1
+    editable: true
+    nodeGraph:
+      enabled: true
