@@ -2,8 +2,6 @@
 
 This document outlines the steps to reproduce the KWOK testing environment where we deploy the online-boutique microservices application. The online-boutique is a cloud-native microservices demo application that consists of multiple services, making it an ideal candidate for testing large-scale Kubernetes deployments in KWOK.
 
-![Online Boutique](./images/online-boutique-architecture.png)
-
 ## Steps
 
 1. Create a cluster  

@@ -17,7 +17,7 @@ Within this KWOK-simulated environment, we will deploy and configure:
  - Grafana for visualization
  - Jaeger for traces
 
-2. The simulated nodes and pods (or simple agents/applications) will be configured to produce telemetry data at a rate and volume commensurate with the large cluster size.
+2. The simulated nodes and pods will be configured to produce telemetry data at a rate and volume commensurate with the large cluster size.
 
 ## Objectives
 
