@@ -1,3 +1,5 @@
+# Environment Configuration
+
 ## Installing Docker
 
 All the instructions were created from https://docs.docker.com/engine/install/
