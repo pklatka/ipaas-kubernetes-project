@@ -15,5 +15,6 @@ datasources:
     isDefault: false
     version: 1
     editable: true
-    nodeGraph:
-      enabled: true
+    jsonData:
+      nodeGraph:
+        enabled: true
