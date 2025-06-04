@@ -27,19 +27,6 @@ Despite that the application was running properly:
 ![k8s running app](./images/k8skwokworking.png)
 
 problem occured when dealing with OpenTelemetry:
-
-
-hiro@Hiro:~/kwok$ kubectl logs -l app.kubernetes.io/name=opentelemetry-collector -n opentelemetry
-main.run
-    github.com/open-telemetry/opentelemetry-collector-releases/contrib/main_others.go:10
-main.main
-    github.com/open-telemetry/opentelemetry-collector-releases/contrib/main.go:46
-runtime.main
-    runtime/proc.go:271
-2025-06-03T09:06:44.294Z    info    service@v0.100.0/service.go:232    Starting shutdown...
-2025-06-03T09:06:44.294Z    info    healthcheck/handler.go:132    Health Check state change    {"kind": "extension", "name": "health_check", "status": "unavailable"}
-2025-06-03T09:06:44.295Z    info    extensions/extensions.go:59    Stopping extensions...
-2025-06-03T09:06:44.295Z    info    service@v0.100.0/service.go:246    Shutdown complete.
 ![k8s running app](./images/optelNotWorking.png)
 
 Also problem with running stage-fast, because deployment was still runing at k8s not kwok.
