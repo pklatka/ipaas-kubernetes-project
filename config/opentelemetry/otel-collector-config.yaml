@@ -4,7 +4,7 @@ metadata:
   name: otel-collector-config
   namespace: default
 data:
-  otel-collector-config.yaml: |
+  otel-collector-config.yaml:
     receivers:
       prometheus:
         config:
